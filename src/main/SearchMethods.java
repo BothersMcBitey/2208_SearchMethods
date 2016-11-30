@@ -13,7 +13,7 @@ import search.BreadthFirstSearch;
 import search.DepthFirstSearch;
 import search.IterativeDeepeningSearch;
 
-public class Main {
+public class SearchMethods {
 
 	public static void main(String[] args) {
 		BlocksworldNode startState = new BlocksworldNode(new Path(), Integer.MAX_VALUE, new Position(0, 0), 
