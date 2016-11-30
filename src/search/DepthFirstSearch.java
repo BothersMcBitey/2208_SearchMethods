@@ -13,6 +13,7 @@ public class DepthFirstSearch extends Search {
 		//initialise solution
 		Node solution = null;
 		boolean solutionFound = false;
+		int expandedNodes = 0;
 		
 		//initialise stack
 		Stack<Node> fringe = new Stack<Node>();
@@ -20,9 +21,9 @@ public class DepthFirstSearch extends Search {
 		
 		//search until solution found or tree exhausted
 		while(!fringe.empty() && !solutionFound){
-			Node n = fringe.pop();			
+			Node n = fringe.pop();
 			
-//			System.out.println(n.toString());
+			expandedNodes++;
 			
 			if(p.isGoalState(n)){
 				solutionFound = true;
@@ -33,6 +34,8 @@ public class DepthFirstSearch extends Search {
 				fringe.push(child);			
 			}			
 		}
+		
+		System.out.println("Nodes expanded: " + expandedNodes);
 		
 		return solution;		
 	}

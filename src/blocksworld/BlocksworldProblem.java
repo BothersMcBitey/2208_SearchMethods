@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import main.Node;
-import main.Path;
 import main.Position;
 import main.Problem;
 
@@ -17,8 +16,10 @@ public class BlocksworldProblem extends Problem {
 		UP, DOWN, LEFT, RIGHT
 	}
 
-	public BlocksworldProblem(Node startState, Node goalState) {
+	public BlocksworldProblem(int width, int height, Node startState, Node goalState) {
 		super(startState, goalState);
+		this.width = width;
+		this.height = height;
 	}
 	
 	@Override
@@ -26,8 +27,8 @@ public class BlocksworldProblem extends Problem {
 		BlocksworldNode node = (BlocksworldNode) n;
 		BlocksworldNode goal = (BlocksworldNode) goalState;
 		
-		if((goal.getA() == node.getA()) && (goal.getB() == node.getB())
-				&& (goal.getC() == node.getC())){
+		if((goal.getA().equals(node.getA())) && (goal.getB().equals(node.getB()))
+				&& (goal.getC().equals(node.getC()))){
 			return true;
 		} else {
 			return false;
@@ -143,12 +144,13 @@ public class BlocksworldProblem extends Problem {
 		}
 
 		//Add previous node to path
-		Path path = n.getPath();
-		path.addNode(n);
+//		Path path = n.getPath().clone();
+//		path.addNode(n);
 		//calculate cost
 		int cost = calculateNodeCost(newA, newB, newC);
+		cost += n.getDepth();
 		//return new node
-		return new BlocksworldNode(path, cost, newA, newB, newC, newAgent);
+		return new BlocksworldNode(n, cost, newA, newB, newC, newAgent);
 	}
 	
 	private int calculateNodeCost(Position a, Position b, Position c){
@@ -160,7 +162,7 @@ public class BlocksworldProblem extends Problem {
 		cost += Math.abs(b.getX() - goal.getB().getX());
 		cost += Math.abs(b.getY() - goal.getB().getY());
 		cost += Math.abs(c.getX() - goal.getC().getX());
-		cost += Math.abs(c.getY() - goal.getC().getY());
+		cost += Math.abs(c.getY() - goal.getC().getY()); 
 		
 		return cost;
 	}

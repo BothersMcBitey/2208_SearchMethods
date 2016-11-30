@@ -1,13 +1,22 @@
 package main;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public abstract class Node {
 	
-	private Path path;
 	private int cost;
+	private Node parent;
+	private int depth;
 	
-	protected Node(Path path, int cost){
-		this.path = path;
+	protected Node(Node parent, int cost){
 		this.cost = cost;
+		this.parent = parent;
+		if(parent == null){
+			depth = 0;
+		}else {
+			depth = parent.getDepth() + 1;
+		}
 	}
 
 	public abstract boolean equals(Node n);
@@ -15,11 +24,29 @@ public abstract class Node {
 	@Override
 	public abstract String toString();
 
-	public Path getPath() {
+	public Queue<Node> getPath() {
+		Queue<Node> path = new LinkedList<Node>();
+		
+		path.add(this);
+		
+		Node parent = this.parent;		
+		while(parent != null){
+			path.add(parent);
+			parent = parent.getParent();
+		}
+		
 		return path;
+	}
+	
+	public Node getParent(){
+		return parent;
 	}
 	
 	public int getCost(){
 		return cost;
+	}
+	
+	public int getDepth(){
+		return depth;
 	}
 }

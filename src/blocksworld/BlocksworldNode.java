@@ -2,14 +2,13 @@ package blocksworld;
 
 import main.Node;
 import main.Position;
-import main.Path;
 
 public class BlocksworldNode extends Node {
 
 	private Position a, b, c, agent;
 	
-	public BlocksworldNode(Path path, int cost, Position a, Position b, Position c, Position agent) {
-		super(path, cost);
+	public BlocksworldNode(/*Path path*/Node parent, int cost, Position a, Position b, Position c, Position agent) {
+		super(parent, cost);
 		this.a = a;
 		this.b = b;
 		this.c = c;

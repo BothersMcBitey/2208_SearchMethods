@@ -3,6 +3,7 @@ package search;
 import java.util.HashSet;
 import java.util.Set;
 
+
 import main.Node;
 import main.Problem;
 import main.Search;
@@ -14,6 +15,7 @@ public class AStarSearch extends Search {
 		//initialise solution
 		Node solution = null;
 		boolean solutionFound = false;
+		int expandedNodes = 0;
 		
 		//initialise fringe
 		Set<Node> fringe = new HashSet<Node>();
@@ -26,12 +28,13 @@ public class AStarSearch extends Search {
 			for(Node node : fringe){
 				if(node.getCost() < currentCost){
 					n = node;
-					currentCost = n.getCost();
+					currentCost = n.getCost();				
+				} else if(n == null){
+					n = node;
 				}
 			}
-			
-//			System.out.println(n.toString());
-			
+			fringe.remove(n);
+			expandedNodes++;
 			if(p.isGoalState(n)){
 				solutionFound = true;
 				solution = n;
@@ -41,6 +44,8 @@ public class AStarSearch extends Search {
 				fringe.add(child);			
 			}			
 		}
+		
+		System.out.println("Nodes expanded: " + expandedNodes);
 		
 		return solution;		
 	}

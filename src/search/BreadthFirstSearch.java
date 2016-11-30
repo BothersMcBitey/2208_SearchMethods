@@ -11,18 +11,17 @@ public class BreadthFirstSearch extends Search {
 	
 	@Override
 	public Node findSolution(Problem p) {		
-		//initialise queue
+		//initialise search
 		Queue<Node> fringe = new LinkedList<Node>();
 		fringe.add(p.getStartState());
 		boolean solutionFound = false;
 		Node solution = null;
+		int expandedNodes = 0;
 		
 		//search until solution found or tree exhausted
 		while(!fringe.isEmpty() && !solutionFound){
 			Node n = fringe.remove();			
-			
-//			System.out.println(n.toString());
-			
+			expandedNodes++;
 			if(p.isGoalState(n)){
 				solutionFound = true;
 				solution = n;
@@ -32,6 +31,8 @@ public class BreadthFirstSearch extends Search {
 				fringe.add(child);			
 			}			
 		}
+		
+		System.out.println("Nodes expanded: " + expandedNodes);
 		
 		return solution;		
 	}

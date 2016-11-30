@@ -16,21 +16,31 @@ import search.IterativeDeepeningSearch;
 public class SearchMethods {
 
 	public static void main(String[] args) {
-		BlocksworldNode startState = new BlocksworldNode(new Path(), Integer.MAX_VALUE, new Position(0, 0), 
+		BlocksworldNode startState = new BlocksworldNode(null, Integer.MAX_VALUE, new Position(0, 0), 
 				new Position(1, 0), new Position(2, 0), new Position(3, 0));
-		BlocksworldNode goalState = new BlocksworldNode(new Path(), 0, new Position(1, 2), 
+		BlocksworldNode goalState = new BlocksworldNode(null, 0, new Position(1, 2), 
 				new Position(1, 1), new Position(1, 0), new Position(0, 0));
-		Problem p = new BlocksworldProblem(startState, goalState);
+		Problem p = new BlocksworldProblem(4,4,startState, goalState);
 		
+		System.out.println("Starting Depth First Search...");
 		Node dfsSolution = new DepthFirstSearch().findSolution(p);
+		System.out.println("Done.");
+		System.out.println("Starting Breadth First Search...");
 		Node bfsSolution = new BreadthFirstSearch().findSolution(p);
+		System.out.println("Done.");
+		System.out.println("Starting Iterative Deepening Search...");
 		Node idsSolution = new IterativeDeepeningSearch().findSolution(p);
+		System.out.println("Done.");
+		System.out.println("Starting A* Search...");
 		Node assSolution = new AStarSearch().findSolution(p);
+		System.out.println("Done.");
 		
-		outputSolution(dfsSolution, "dfs.txt");
-		outputSolution(bfsSolution, "bfs.txt");
-		outputSolution(idsSolution, "ids.txt");
+		System.out.println("Outputting results...");
+		outputSolution(dfsSolution, "dfs.txt");		
+		outputSolution(bfsSolution, "bfs.txt");		
+		outputSolution(idsSolution, "ids.txt");		
 		outputSolution(assSolution, "ass.txt");
+		System.out.println("Done.");
 	}
 	
 	public static void outputSolution(Node n, String filename){
@@ -41,7 +51,9 @@ public class SearchMethods {
 		}
 		
 		try(FileWriter out = new FileWriter(solutionFile)){
-			out.write(n.getPath().toString());
+			for(Node node : n.getPath()){
+				out.write(node.toString() + System.getProperty("line.separator"));
+			}
 			out.flush();
 			out.close();
 		} catch (IOException e) {
