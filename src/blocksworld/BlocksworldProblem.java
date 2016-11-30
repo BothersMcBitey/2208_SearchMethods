@@ -145,8 +145,24 @@ public class BlocksworldProblem extends Problem {
 		//Add previous node to path
 		Path path = n.getPath();
 		path.addNode(n);
+		//calculate cost
+		int cost = calculateNodeCost(newA, newB, newC);
 		//return new node
-		return new BlocksworldNode(path, newA, newB, newC, newAgent);
+		return new BlocksworldNode(path, cost, newA, newB, newC, newAgent);
+	}
+	
+	private int calculateNodeCost(Position a, Position b, Position c){
+		BlocksworldNode goal = (BlocksworldNode) goalState;
+		int cost = 0;
+		
+		cost += Math.abs(a.getX() - goal.getA().getX());
+		cost += Math.abs(a.getY() - goal.getA().getY());
+		cost += Math.abs(b.getX() - goal.getB().getX());
+		cost += Math.abs(b.getY() - goal.getB().getY());
+		cost += Math.abs(c.getX() - goal.getC().getX());
+		cost += Math.abs(c.getY() - goal.getC().getY());
+		
+		return cost;
 	}
 
 }

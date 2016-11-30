@@ -3,9 +3,11 @@ package main;
 public abstract class Node {
 	
 	private Path path;
+	private int cost;
 	
-	protected Node(Path path){
+	protected Node(Path path, int cost){
 		this.path = path;
+		this.cost = cost;
 	}
 
 	public abstract boolean equals(Node n);
@@ -15,5 +17,9 @@ public abstract class Node {
 
 	public Path getPath() {
 		return path;
+	}
+	
+	public int getCost(){
+		return cost;
 	}
 }

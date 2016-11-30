@@ -8,8 +8,8 @@ public class BlocksworldNode extends Node {
 
 	private Position a, b, c, agent;
 	
-	public BlocksworldNode(Path path, Position a, Position b, Position c, Position agent) {
-		super(path);
+	public BlocksworldNode(Path path, int cost, Position a, Position b, Position c, Position agent) {
+		super(path, cost);
 		this.a = a;
 		this.b = b;
 		this.c = c;

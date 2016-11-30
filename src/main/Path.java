@@ -24,4 +24,8 @@ public class Path {
 			System.out.println(path.remove().toString());
 		}
 	}
+
+	public int getDepth() {
+		return path.size();
+	}
 }
