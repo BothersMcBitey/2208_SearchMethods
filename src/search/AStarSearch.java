@@ -13,6 +13,7 @@ public class AStarSearch extends Search {
 
 	@Override
 	public Result findSolution(Problem p) {
+		System.out.println("Starting A* Search...");
 		//initialise solution
 		Node solution = null;
 		boolean solutionFound = false;
@@ -46,7 +47,8 @@ public class AStarSearch extends Search {
 			}			
 		}
 		
-		System.out.println("Nodes expanded: " + nodesExpanded);
+		System.out.println("Nodes expanded: " + nodesExpanded);		
+		System.out.println("Done.");
 		
 		return new Result(solution, nodesExpanded, p.getDepth());		
 	}

@@ -11,7 +11,8 @@ import main.Search;
 public class BreadthFirstSearch extends Search {	
 	
 	@Override
-	public Result findSolution(Problem p) {		
+	public Result findSolution(Problem p) {	
+		System.out.println("Starting Breadth First Search...");
 		//initialise search
 		Queue<Node> fringe = new LinkedList<Node>();
 		fringe.add(p.getStartState());
@@ -34,6 +35,7 @@ public class BreadthFirstSearch extends Search {
 		}
 		
 		System.out.println("Nodes expanded: " + nodesExpanded);
+		System.out.println("Done.");
 		
 		return new Result(solution, nodesExpanded, p.getDepth());	
 	}

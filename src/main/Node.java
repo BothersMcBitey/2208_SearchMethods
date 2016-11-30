@@ -18,6 +18,12 @@ public abstract class Node {
 			depth = parent.getDepth() + 1;
 		}
 	}
+	
+	public void convertToStartNode(){
+		parent = null;
+		cost = Integer.MAX_VALUE;
+		depth = 0;		
+	}
 
 	public abstract boolean equals(Node n);
 	

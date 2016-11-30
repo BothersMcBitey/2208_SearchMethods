@@ -11,6 +11,7 @@ public class IterativeDeepeningSearch extends Search {
 
 	@Override
 	public Result findSolution(Problem p) {
+		System.out.println("Starting Iterative Deepening Search...");
 		//initialise solution	
 		boolean solutionFound = false;
 		Node solution = null;
@@ -45,6 +46,7 @@ public class IterativeDeepeningSearch extends Search {
 		}
 		
 		System.out.println("Nodes expanded: " + nodesExpanded);
+		System.out.println("Done.");
 		
 		return new Result(solution, nodesExpanded, p.getDepth());
 	}

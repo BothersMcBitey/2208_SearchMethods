@@ -10,11 +10,7 @@ import main.Problem;
 
 public class BlocksworldProblem extends Problem {
 
-	private int width = 4, height = 4;
-	
-	private enum Direction{
-		UP, DOWN, LEFT, RIGHT
-	}
+	protected int width = 4, height = 4;
 
 	public BlocksworldProblem(int width, int height, Node startState, Node goalState) {
 		super(startState, goalState);
@@ -52,7 +48,7 @@ public class BlocksworldProblem extends Problem {
 		return children;
 	}
 	
-	private BlocksworldNode Move(BlocksworldNode n, Direction d){
+	protected BlocksworldNode Move(BlocksworldNode n, Direction d){
 		Position newA = n.getA();
 		Position newB = n.getB();
 		Position newC = n.getC();
@@ -143,17 +139,14 @@ public class BlocksworldProblem extends Problem {
 			return null;
 		}
 
-		//Add previous node to path
-//		Path path = n.getPath().clone();
-//		path.addNode(n);
 		//calculate cost
 		int cost = calculateNodeCost(newA, newB, newC);
-		cost += n.getDepth();
+//		cost += n.getDepth();
 		//return new node
 		return new BlocksworldNode(n, cost, newA, newB, newC, newAgent);
 	}
 	
-	private int calculateNodeCost(Position a, Position b, Position c){
+	protected int calculateNodeCost(Position a, Position b, Position c){
 		BlocksworldNode goal = (BlocksworldNode) goalState;
 		int cost = 0;
 		
