@@ -6,16 +6,17 @@ import java.util.Set;
 
 import main.Node;
 import main.Problem;
+import main.Result;
 import main.Search;
 
 public class AStarSearch extends Search {
 
 	@Override
-	public Node findSolution(Problem p) {
+	public Result findSolution(Problem p) {
 		//initialise solution
 		Node solution = null;
 		boolean solutionFound = false;
-		int expandedNodes = 0;
+		int nodesExpanded = 0;
 		
 		//initialise fringe
 		Set<Node> fringe = new HashSet<Node>();
@@ -34,7 +35,7 @@ public class AStarSearch extends Search {
 				}
 			}
 			fringe.remove(n);
-			expandedNodes++;
+			nodesExpanded++;
 			if(p.isGoalState(n)){
 				solutionFound = true;
 				solution = n;
@@ -45,9 +46,9 @@ public class AStarSearch extends Search {
 			}			
 		}
 		
-		System.out.println("Nodes expanded: " + expandedNodes);
+		System.out.println("Nodes expanded: " + nodesExpanded);
 		
-		return solution;		
+		return new Result(solution, nodesExpanded, p.getDepth());		
 	}
 
 }

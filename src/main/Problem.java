@@ -15,6 +15,9 @@ public abstract class Problem {
 	
 	public abstract boolean isGoalState(Node n);
 	
+	//Return a numerical measure of how complex the problem is from the given start state
+	public abstract int getDepth();
+	
 	public Node getGoalState() {
 		return goalState;
 	}

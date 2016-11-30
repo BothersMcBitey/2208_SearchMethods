@@ -23,24 +23,27 @@ public class SearchMethods {
 		Problem p = new BlocksworldProblem(4,4,startState, goalState);
 		
 		System.out.println("Starting Depth First Search...");
-		Node dfsSolution = new DepthFirstSearch().findSolution(p);
-		System.out.println("Done.");
-		System.out.println("Starting Breadth First Search...");
-		Node bfsSolution = new BreadthFirstSearch().findSolution(p);
-		System.out.println("Done.");
-		System.out.println("Starting Iterative Deepening Search...");
-		Node idsSolution = new IterativeDeepeningSearch().findSolution(p);
-		System.out.println("Done.");
-		System.out.println("Starting A* Search...");
-		Node assSolution = new AStarSearch().findSolution(p);
+		Result dfsSolution = new DepthFirstSearch().findSolution(p);
 		System.out.println("Done.");
 		
-		System.out.println("Outputting results...");
-		outputSolution(dfsSolution, "dfs.txt");		
-		outputSolution(bfsSolution, "bfs.txt");		
-		outputSolution(idsSolution, "ids.txt");		
-		outputSolution(assSolution, "ass.txt");
+		System.out.println("Starting Breadth First Search...");
+		Result bfsSolution = new BreadthFirstSearch().findSolution(p);
 		System.out.println("Done.");
+		
+		System.out.println("Starting Iterative Deepening Search...");
+		Result idsSolution = new IterativeDeepeningSearch().findSolution(p);
+		System.out.println("Done.");
+		
+		System.out.println("Starting A* Search...");
+		Result assSolution = new AStarSearch().findSolution(p);
+		System.out.println("Done.");
+		
+//		System.out.println("Outputting results...");
+//		outputSolution(dfsSolution, "dfs.txt");		
+//		outputSolution(bfsSolution, "bfs.txt");		
+//		outputSolution(idsSolution, "ids.txt");		
+//		outputSolution(assSolution, "ass.txt");
+//		System.out.println("Done.");
 	}
 	
 	public static void outputSolution(Node n, String filename){

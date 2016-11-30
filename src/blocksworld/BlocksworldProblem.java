@@ -166,5 +166,26 @@ public class BlocksworldProblem extends Problem {
 		
 		return cost;
 	}
+	
+	//Manhatten distance of block plus distance from agent to closest block
+	@Override
+	public int getDepth() {
+		BlocksworldNode n = (BlocksworldNode) startState;
+		
+		//Manhatten distance
+		Position a = n.getA();
+		Position b = n.getB();
+		Position c = n.getC();
+		int depth = calculateNodeCost(a, b, c);
+		
+		//Agent distance
+		Position agent = n.getAgent();
+		int dA = Math.abs(agent.getX() - a.getX()) + Math.abs(agent.getY() - a.getY());
+		int dB = Math.abs(agent.getX() - b.getX()) + Math.abs(agent.getY() - b.getY());
+		int dC = Math.abs(agent.getX() - c.getX()) + Math.abs(agent.getY() - c.getY());
+		depth += Math.min(dA, Math.min(dB, dC));
+		
+		return depth;
+	}
 
 }
