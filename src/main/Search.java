@@ -2,6 +2,6 @@ package main;
 
 public abstract class Search {
 	
-	public abstract Solution findSolution(Problem p);
+	public abstract Node findSolution(Problem p);
 	
 }

@@ -1,10 +1,19 @@
 package main;
 
-public class Node {
-
-	public int x;
+public abstract class Node {
 	
-	public Node(int x){
-		this.x = x;
+	private Path path;
+	
+	protected Node(Path path){
+		this.path = path;
+	}
+
+	public abstract boolean equals(Node n);
+	
+	@Override
+	public abstract String toString();
+
+	public Path getPath() {
+		return path;
 	}
 }
