@@ -3,7 +3,6 @@ package search;
 import java.util.HashSet;
 import java.util.Set;
 
-
 import main.Node;
 import main.Problem;
 import main.Result;
@@ -21,8 +20,7 @@ public class AStarSearch extends Search {
 		
 		//initialise fringe
 		Set<Node> fringe = new HashSet<Node>();
-		fringe.add(p.getStartState());
-		
+		fringe.add(p.getStartState());			
 		try{
 			//search until solution found or tree exhausted
 			while(!fringe.isEmpty() && !solutionFound){
@@ -38,7 +36,7 @@ public class AStarSearch extends Search {
 				}
 				
 				fringe.remove(n);
-				nodesExpanded++;
+				nodesExpanded++;			
 				
 				if(p.isGoalState(n)){
 					solutionFound = true;
@@ -48,7 +46,7 @@ public class AStarSearch extends Search {
 				for(Node child : p.getChildren(n)){
 					fringe.add(child);			
 				}			
-			}
+			}			
 		} catch (OutOfMemoryError e){
 			System.out.println("A* ran out of memory, aborting search.");
 		}

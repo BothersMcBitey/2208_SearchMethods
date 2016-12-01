@@ -10,7 +10,7 @@ import main.Search;
 public class DepthFirstSearch extends Search {	
 	
 	@Override
-	public Result findSolution(Problem p) {
+	public Result findSolution(Problem p) {			
 		System.out.println("Starting Depth First Search...");
 		//initialise solution
 		Node solution = null;
@@ -20,13 +20,15 @@ public class DepthFirstSearch extends Search {
 		//initialise stack
 		Stack<Node> fringe = new Stack<Node>();
 		fringe.push(p.getStartState());
-		
+				
 		try{
 			//search until solution found or tree exhausted
 			while(!fringe.empty() && !solutionFound){
 				Node n = fringe.pop();
 				
 				nodesExpanded++;
+				
+				
 				
 				if(p.isGoalState(n)){
 					solutionFound = true;
@@ -40,6 +42,8 @@ public class DepthFirstSearch extends Search {
 		} catch (OutOfMemoryError e){
 			System.out.println("DFS ran out of memory, aborting search.");
 		}
+		
+		
 		
 		System.out.println("Nodes expanded: " + nodesExpanded);
 		System.out.println("Done.");

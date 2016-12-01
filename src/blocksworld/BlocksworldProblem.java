@@ -140,7 +140,7 @@ public class BlocksworldProblem extends Problem {
 
 		//calculate cost
 		int cost = calculateNodeCost(newA, newB, newC);
-//		cost += n.getDepth();
+		cost += n.getDepth();
 		//return new node
 		return new BlocksworldNode(n, cost, newA, newB, newC, newAgent);
 	}
@@ -184,6 +184,14 @@ public class BlocksworldProblem extends Problem {
 	public int getTreeMaxDepth() {
 		//tree is infinite, so this is just to stop integer overflows
 		return Integer.MAX_VALUE;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 
 }

@@ -6,7 +6,8 @@ public class BlocksworldNode extends Node {
 
 	private Position a, b, c, agent;
 	
-	public BlocksworldNode(/*Path path*/Node parent, int cost, Position a, Position b, Position c, Position agent) {
+	public BlocksworldNode(/*Path path*/Node parent, int cost, Position a, 
+			Position b, Position c, Position agent) {
 		super(parent, cost);
 		this.a = a;
 		this.b = b;
@@ -18,8 +19,8 @@ public class BlocksworldNode extends Node {
 	public boolean equals(Node n){
 		BlocksworldNode node = (BlocksworldNode) n;
 		
-		if((a == node.getA()) && (b == node.getB()) 
-				&& (c == node.getC()) && (agent == node.getAgent())){
+		if((a.equals(node.getA())) && (b.equals(node.getB())) 
+				&& (c.equals(node.getC())) && (agent.equals(node.getAgent()))){
 			return true;
 		} else {
 			return false;
