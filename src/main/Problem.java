@@ -24,4 +24,6 @@ public abstract class Problem {
 	public Node getStartState(){
 		return startState;
 	}
+
+	public abstract int getTreeMaxDepth();
 }

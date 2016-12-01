@@ -1,7 +1,6 @@
 package blocksworld;
 
 import main.Node;
-import main.Position;
 
 public class ProblemGenerationProblem extends BlocksworldProblem {
 
@@ -28,13 +27,21 @@ public class ProblemGenerationProblem extends BlocksworldProblem {
 		Position c = n.getC();
 		int depth = calculateNodeCost(a, b, c);
 		
-		//Agent distance
-		Position agent = n.getAgent();
-		int dA = Math.abs(agent.getX() - a.getX()) + Math.abs(agent.getY() - a.getY());
-		int dB = Math.abs(agent.getX() - b.getX()) + Math.abs(agent.getY() - b.getY());
-		int dC = Math.abs(agent.getX() - c.getX()) + Math.abs(agent.getY() - c.getY());
-		depth += Math.min(dA, Math.min(dB, dC));
-		
 		return depth;
+	}
+	
+	@Override
+	protected int calculateNodeCost(Position a, Position b, Position c){
+		BlocksworldNode goal = (BlocksworldNode) startState;
+		int cost = 0;
+		
+		cost += Math.abs(a.getX() - goal.getA().getX());
+		cost += Math.abs(a.getY() - goal.getA().getY());
+		cost += Math.abs(b.getX() - goal.getB().getX());
+		cost += Math.abs(b.getY() - goal.getB().getY());
+		cost += Math.abs(c.getX() - goal.getC().getX());
+		cost += Math.abs(c.getY() - goal.getC().getY()); 
+		
+		return cost;
 	}
 }

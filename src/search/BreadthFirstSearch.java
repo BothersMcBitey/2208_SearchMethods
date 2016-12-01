@@ -20,18 +20,24 @@ public class BreadthFirstSearch extends Search {
 		Node solution = null;
 		int nodesExpanded = 0;
 		
-		//search until solution found or tree exhausted
-		while(!fringe.isEmpty() && !solutionFound){
-			Node n = fringe.remove();			
-			nodesExpanded++;
-			if(p.isGoalState(n)){
-				solutionFound = true;
-				solution = n;
-			}
+		try{
+			//search until solution found or tree exhausted
+			while(!fringe.isEmpty() && !solutionFound){
+				Node n = fringe.remove();	
 				
-			for(Node child : p.getChildren(n)){
-				fringe.add(child);			
-			}			
+				nodesExpanded++;
+				
+				if(p.isGoalState(n)){
+					solutionFound = true;
+					solution = n;
+				}
+					
+				for(Node child : p.getChildren(n)){
+					fringe.add(child);			
+				}			
+			}
+		} catch (OutOfMemoryError e){
+			System.out.println("BFS ran out of memory, aborting search.");
 		}
 		
 		System.out.println("Nodes expanded: " + nodesExpanded);

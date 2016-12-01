@@ -18,31 +18,35 @@ public class IterativeDeepeningSearch extends Search {
 		int depth = -1;		
 		int nodesExpanded = 0;
 		
-		while(!solutionFound){
-			depth++;
-			
-			//initialise stack
-			Stack<Node> fringe = new Stack<Node>();
-			fringe.push(p.getStartState());
-			
-			//search until solution found or tree exhausted
-			while(!fringe.empty() && !solutionFound){
-				Node n = fringe.pop();	
+		try{
+			while(!solutionFound && (depth <= p.getTreeMaxDepth())){
+				depth++;
 				
-				nodesExpanded++;
+				//initialise stack
+				Stack<Node> fringe = new Stack<Node>();
+				fringe.push(p.getStartState());
 				
-				if(p.isGoalState(n)){
-					solutionFound = true;
-					solution = n;
-				}
-			
-				//check children within depth
-				if(n.getDepth() < depth){
-					for(Node child : p.getChildren(n)){
-						fringe.push(child);			
-					}	
+				//search until solution found or tree exhausted
+				while(!fringe.empty() && !solutionFound){
+					Node n = fringe.pop();	
+					
+					nodesExpanded++;
+					
+					if(p.isGoalState(n)){
+						solutionFound = true;
+						solution = n;
+					}
+				
+					//check children within depth
+					if(n.getDepth() < depth){
+						for(Node child : p.getChildren(n)){
+							fringe.push(child);			
+						}	
+					}
 				}
 			}
+		} catch (OutOfMemoryError e){
+			System.out.println("IDS ran out of memory, aborting search.");
 		}
 		
 		System.out.println("Nodes expanded: " + nodesExpanded);

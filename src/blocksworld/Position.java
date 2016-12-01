@@ -1,4 +1,4 @@
-package main;
+package blocksworld;
 
 public class Position {
 

@@ -1,7 +1,6 @@
 package blocksworld;
 
 import main.Node;
-import main.Position;
 
 public class BlocksworldNode extends Node {
 

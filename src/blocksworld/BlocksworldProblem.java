@@ -5,12 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 import main.Node;
-import main.Position;
 import main.Problem;
 
 public class BlocksworldProblem extends Problem {
 
-	protected int width = 4, height = 4;
+	protected int width, height;
 
 	public BlocksworldProblem(int width, int height, Node startState, Node goalState) {
 		super(startState, goalState);
@@ -179,6 +178,12 @@ public class BlocksworldProblem extends Problem {
 		depth += Math.min(dA, Math.min(dB, dC));
 		
 		return depth;
+	}
+
+	@Override
+	public int getTreeMaxDepth() {
+		//tree is infinite, so this is just to stop integer overflows
+		return Integer.MAX_VALUE;
 	}
 
 }

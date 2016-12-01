@@ -21,20 +21,24 @@ public class DepthFirstSearch extends Search {
 		Stack<Node> fringe = new Stack<Node>();
 		fringe.push(p.getStartState());
 		
-		//search until solution found or tree exhausted
-		while(!fringe.empty() && !solutionFound){
-			Node n = fringe.pop();
-			
-			nodesExpanded++;
-			
-			if(p.isGoalState(n)){
-				solutionFound = true;
-				solution = n;
-			}
+		try{
+			//search until solution found or tree exhausted
+			while(!fringe.empty() && !solutionFound){
+				Node n = fringe.pop();
 				
-			for(Node child : p.getChildren(n)){
-				fringe.push(child);			
-			}			
+				nodesExpanded++;
+				
+				if(p.isGoalState(n)){
+					solutionFound = true;
+					solution = n;
+				}
+					
+				for(Node child : p.getChildren(n)){
+					fringe.push(child);			
+				}			
+			}
+		} catch (OutOfMemoryError e){
+			System.out.println("DFS ran out of memory, aborting search.");
 		}
 		
 		System.out.println("Nodes expanded: " + nodesExpanded);

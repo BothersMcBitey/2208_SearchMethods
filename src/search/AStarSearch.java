@@ -23,28 +23,34 @@ public class AStarSearch extends Search {
 		Set<Node> fringe = new HashSet<Node>();
 		fringe.add(p.getStartState());
 		
-		//search until solution found or tree exhausted
-		while(!fringe.isEmpty() && !solutionFound){
-			Node n = null;
-			int currentCost = Integer.MAX_VALUE;
-			for(Node node : fringe){
-				if(node.getCost() < currentCost){
-					n = node;
-					currentCost = n.getCost();				
-				} else if(n == null){
-					n = node;
+		try{
+			//search until solution found or tree exhausted
+			while(!fringe.isEmpty() && !solutionFound){
+				Node n = null;
+				int currentCost = Integer.MAX_VALUE;
+				for(Node node : fringe){
+					if(node.getCost() < currentCost){
+						n = node;
+						currentCost = n.getCost();				
+					} else if(n == null){
+						n = node;
+					}
 				}
-			}
-			fringe.remove(n);
-			nodesExpanded++;
-			if(p.isGoalState(n)){
-				solutionFound = true;
-				solution = n;
-			}
 				
-			for(Node child : p.getChildren(n)){
-				fringe.add(child);			
-			}			
+				fringe.remove(n);
+				nodesExpanded++;
+				
+				if(p.isGoalState(n)){
+					solutionFound = true;
+					solution = n;
+				}
+					
+				for(Node child : p.getChildren(n)){
+					fringe.add(child);			
+				}			
+			}
+		} catch (OutOfMemoryError e){
+			System.out.println("A* ran out of memory, aborting search.");
 		}
 		
 		System.out.println("Nodes expanded: " + nodesExpanded);		

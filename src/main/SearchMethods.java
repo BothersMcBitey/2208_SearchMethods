@@ -10,6 +10,7 @@ import java.util.List;
 
 import blocksworld.BlocksworldNode;
 import blocksworld.BlocksworldProblem;
+import blocksworld.Position;
 import blocksworld.ProblemGenerationNode;
 import blocksworld.ProblemGenerationProblem;
 import search.AStarSearch;
@@ -37,27 +38,38 @@ public class SearchMethods {
 		ArrayList<Result> idsResults = new ArrayList<Result>();
 		ArrayList<Result> assResults = new ArrayList<Result>();
 		
-		for(int i = 0; i < MAX_PROBLEM_DEPTH; i++){			
-			Problem findProblemOfDepthI = new ProblemGenerationProblem(5, 5, goalState, new ProblemGenerationNode(i));
-			Result problemOfDepthI = new DepthFirstSearch().findSolution(findProblemOfDepthI);
-			
-			BlocksworldNode startState = (BlocksworldNode) problemOfDepthI.getSolution();
-			startState.convertToStartNode();
-			
-			Problem p = new BlocksworldProblem(5,5,startState, goalState);
-			
-			dfsResults.add(dfs.findSolution(p));
-			bfsResults.add(bfs.findSolution(p));
-			idsResults.add(ids.findSolution(p));
-			assResults.add(ass.findSolution(p));
+		try{
+			for(int i = 0; i < MAX_PROBLEM_DEPTH; i++){
+				System.out.println("=================================");
+				System.out.println("Testing for problem depth " + i);
+				System.out.println("---------------------------------");			
+				System.out.println("Generating problem...");
+				Problem findProblemOfDepthI = new ProblemGenerationProblem(5, 5, goalState, new ProblemGenerationNode(i));
+				Result problemOfDepthI = new DepthFirstSearch().findSolution(findProblemOfDepthI);
+				
+				BlocksworldNode startState = (BlocksworldNode) problemOfDepthI.getSolution();
+				startState.convertToStartNode();
+				
+				Problem p = new BlocksworldProblem(5,5,startState, goalState);
+				
+				System.out.println("Problem:");
+				System.out.println(startState.toString());
+				
+				System.out.println("Finding solutions...");
+				dfsResults.add(dfs.findSolution(p));
+				if(i<7) bfsResults.add(bfs.findSolution(p));
+				if(i<8) idsResults.add(ids.findSolution(p));
+				assResults.add(ass.findSolution(p));
+				System.out.println("Finished testing depth " + i);
+			}
+		} finally {
+			System.out.println("Outputting results...");
+			outputSolution(dfsResults, "dfs");		
+			outputSolution(bfsResults, "bfs");		
+			outputSolution(idsResults, "ids");		
+			outputSolution(assResults, "ass");
+			System.out.println("Done.");
 		}
-		
-		System.out.println("Outputting results...");
-		outputSolution(dfsResults, "dfs");		
-		outputSolution(bfsResults, "bfs");		
-		outputSolution(idsResults, "ids");		
-		outputSolution(assResults, "ass");
-		System.out.println("Done.");
 	}
 	
 	public static void outputSolution(List<Result> results, String filename){
