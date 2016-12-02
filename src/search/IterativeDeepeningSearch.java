@@ -1,11 +1,14 @@
 package search;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
+import main.AnimatedGifEncoder;
 import main.Node;
 import main.Problem;
 import main.Result;
 import main.Search;
+import main.SimpleRenderer;
 
 public class IterativeDeepeningSearch extends Search {
 
@@ -19,8 +22,11 @@ public class IterativeDeepeningSearch extends Search {
 		int nodesExpanded = 0;
 		
 		try{
+			SimpleRenderer r = new SimpleRenderer(1000, p, false);
+			ArrayList<Node> list = new ArrayList<Node>();
+			
 			while(!solutionFound && (depth <= p.getTreeMaxDepth())){
-				depth++;
+				depth++;				
 				
 				//initialise stack
 				Stack<Node> fringe = new Stack<Node>();
@@ -30,6 +36,7 @@ public class IterativeDeepeningSearch extends Search {
 				while(!fringe.empty() && !solutionFound){
 					Node n = fringe.pop();	
 					
+					list.add(n);
 					nodesExpanded++;
 					
 					if(p.isGoalState(n)){
@@ -45,6 +52,21 @@ public class IterativeDeepeningSearch extends Search {
 					}
 				}
 			}
+			
+			System.out.println("Nodes expanded: " + nodesExpanded);
+			
+			AnimatedGifEncoder e = new AnimatedGifEncoder();
+			e.start("ids_simple.gif");
+			int delay = Math.max( 1 , (5000 / list.size()));
+			e.setDelay(delay); 
+			e.addFrame(r.startFrame(false));
+			for(Node n : list){
+//				e.addFrame(r.generateFrame(n,true));
+				e.addFrame(r.generateFrame(n,false));
+			}
+			e.addFrame(r.startFrame(true));
+			e.finish();
+			
 		} catch (OutOfMemoryError e){
 			System.out.println("IDS ran out of memory, aborting search.");
 		}

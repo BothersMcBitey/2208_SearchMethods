@@ -1,11 +1,14 @@
 package search;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
+import main.AnimatedGifEncoder;
 import main.Node;
 import main.Problem;
 import main.Result;
 import main.Search;
+import main.SimpleRenderer;
 
 public class DepthFirstSearch extends Search {	
 	
@@ -22,9 +25,14 @@ public class DepthFirstSearch extends Search {
 		fringe.push(p.getStartState());
 				
 		try{
+			SimpleRenderer r = new SimpleRenderer(1000, p, false);
+			ArrayList<Node> list = new ArrayList<Node>();
+			
 			//search until solution found or tree exhausted
 			while(!fringe.empty() && !solutionFound){
 				Node n = fringe.pop();
+				
+				list.add(n);
 				
 				nodesExpanded++;
 
@@ -37,6 +45,20 @@ public class DepthFirstSearch extends Search {
 					fringe.push(child);			
 				}			
 			}
+			
+			System.out.println("Nodes expanded: " + nodesExpanded);
+			
+			AnimatedGifEncoder e = new AnimatedGifEncoder();
+			e.start("dfs_simple.gif");
+			int delay = Math.max( 1 , (5000 / list.size()));
+			e.setDelay(delay); 
+			e.addFrame(r.startFrame(false));
+			for(Node n : list){
+				e.addFrame(r.generateFrame(n,true));
+				e.addFrame(r.generateFrame(n,false));
+			}
+			e.addFrame(r.startFrame(true));
+			e.finish();
 		} catch (OutOfMemoryError e){
 			System.out.println("DFS ran out of memory, aborting search.");
 		}

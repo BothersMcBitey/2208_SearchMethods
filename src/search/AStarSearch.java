@@ -1,11 +1,14 @@
 package search;
 
+import java.util.ArrayList;
 import java.util.Set;
 
+import main.AnimatedGifEncoder;
 import main.Node;
 import main.Problem;
 import main.Result;
 import main.Search;
+import main.SimpleRenderer;
 
 public class AStarSearch extends Search {
 
@@ -21,6 +24,9 @@ public class AStarSearch extends Search {
 		Set<Node> fringe = new SearchSet<Node>();
 		fringe.add(p.getStartState());			
 		try{
+			SimpleRenderer r = new SimpleRenderer(1000, p, true);
+			ArrayList<Node> list = new ArrayList<Node>();
+			
 			//search until solution found or tree exhausted
 			while(!fringe.isEmpty() && !solutionFound){
 				Node n = null;
@@ -37,7 +43,9 @@ public class AStarSearch extends Search {
 //				System.out.println("Fringe: " + fringe.size() + "\n" + "current cost: " + currentCost + "\n" + "nodes expanded: " + nodesExpanded);
 				
 				fringe.remove(n);
-				nodesExpanded++;			
+				nodesExpanded++;		
+				
+				list.add(n);
 				
 				if(p.isGoalState(n)){
 					solutionFound = true;
@@ -48,6 +56,21 @@ public class AStarSearch extends Search {
 					fringe.add(child);							
 				}			
 			}			
+
+			System.out.println("Nodes expanded: " + nodesExpanded);
+			
+			AnimatedGifEncoder e = new AnimatedGifEncoder();
+			e.start("ass_simple.gif");
+			int delay = Math.max( 1 , (5000 / list.size()));
+			e.setDelay(delay); 
+			e.addFrame(r.startFrame(false));
+			for(Node n : list){
+//				e.addFrame(r.generateFrame(n,true));
+				e.addFrame(r.generateFrame(n,false));
+			}
+			e.addFrame(r.startFrame(true));
+			e.finish();
+			
 		} catch (OutOfMemoryError e){
 			System.out.println("A* ran out of memory, aborting search.");
 		}

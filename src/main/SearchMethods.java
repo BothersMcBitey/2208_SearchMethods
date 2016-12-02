@@ -16,6 +16,8 @@ import java.util.Stack;
 import blocksworld.BlocksworldNode;
 import blocksworld.BlocksworldProblem;
 import blocksworld.Position;
+import blocksworld.SimpleNode;
+import blocksworld.SimpleProblem;
 import search.AStarSearch;
 import search.BreadthFirstSearch;
 import search.DepthFirstSearch;
@@ -57,58 +59,69 @@ public class SearchMethods {
 	public void run(){					
 		//----------------------------------------------------------------------------------
 		//This bit solves the puzzle as given in the spec
-		Problem p1 = new BlocksworldProblem(4,4,startState, goalState);
-		Result dfsResult = dfs.findSolution(p1);
-		Result bfsResult = bfs.findSolution(p1);
-		Result idsResult = ids.findSolution(p1);
-		Result assResult = ass.findSolution(p1);
-		
-		System.out.println("Outputting results...");
-		
-		outputSolution(dfsResult, "dfs");		
-		outputSolution(bfsResult, "bfs");		
-		outputSolution(idsResult, "ids");		
-		outputSolution(assResult, "ass");
-		
-		makeGif(dfsResult, "dfs", p1, false);		
-		makeGif(bfsResult, "bfs", p1, false);		
-		makeGif(idsResult, "ids", p1, false);	
-		makeGif(assResult, "ass", p1, true);
-		
-		System.out.println("Done.");			
+//		Problem p1 = new BlocksworldProblem(4,4,startState, goalState);
+//		Result dfsResult = dfs.findSolution(p1);
+//		Result bfsResult = bfs.findSolution(p1);
+//		Result idsResult = ids.findSolution(p1);
+//		Result assResult = ass.findSolution(p1);
+//		
+//		System.out.println("Outputting results...");
+//		
+//		outputSolution(dfsResult, "dfs");		
+//		outputSolution(bfsResult, "bfs");		
+//		outputSolution(idsResult, "ids");		
+//		outputSolution(assResult, "ass");
+//		
+//		makeGif(dfsResult, "dfs", p1, false);		
+//		makeGif(bfsResult, "bfs", p1, false);		
+//		makeGif(idsResult, "ids", p1, false);	
+//		makeGif(assResult, "ass", p1, true);
+//		
+//		System.out.println("Done.");			
 		
 		//----------------------------------------------------------------------------------
 		//This bit just gathers time complextity data
-		openFiles();
-		Problem p = new BlocksworldProblem(5,5,startState, goalState);
-		try{
-			for(int i = 1; i < MAX_PROBLEM_DEPTH; i++){
-				for(int j = 0; j < MAX_PROBLEM_REPEATS; j++){
-					System.out.println("=================================");
-					System.out.println("Testing for problem depth " + i + ", count " + j);
-					System.out.println("---------------------------------");			
-					System.out.println("Generating problem...");
-					
-					startState = (BlocksworldNode) generateProblem(p, i);
-					startState.convertToStartNode();
-					
-					p = new BlocksworldProblem(5,5,startState, goalState);
-					
-					
-					System.out.println("Problem:");
-					System.out.println(startState.toString());
-					
-					System.out.println("Finding solutions...");
-					outputData(dfs.findSolution(p).getNodesExpanded(), i, dfs_out);
-					outputData(bfs.findSolution(p).getNodesExpanded(), i, bfs_out);
-					outputData(ids.findSolution(p).getNodesExpanded(), i, ids_out);
-					outputData(ass.findSolution(p).getNodesExpanded(), i, ass_out);
-					System.out.println("Finished testing depth " + i);
-				}
-			}
-		} finally {
-			closeFiles();
-		}
+//		openFiles();
+//		Problem p = new BlocksworldProblem(5,5,startState, goalState);
+//		try{
+//			for(int i = 1; i < MAX_PROBLEM_DEPTH; i++){
+//				for(int j = 0; j < MAX_PROBLEM_REPEATS; j++){
+//					System.out.println("=================================");
+//					System.out.println("Testing for problem depth " + i + ", count " + j);
+//					System.out.println("---------------------------------");			
+//					System.out.println("Generating problem...");
+//					
+//					startState = (BlocksworldNode) generateProblem(p, i);
+//					startState.convertToStartNode();
+//					
+//					p = new BlocksworldProblem(5,5,startState, goalState);
+//					
+//					
+//					System.out.println("Problem:");
+//					System.out.println(startState.toString());
+//					
+//					System.out.println("Finding solutions...");
+//					outputData(dfs.findSolution(p).getNodesExpanded(), i, dfs_out);
+//					outputData(bfs.findSolution(p).getNodesExpanded(), i, bfs_out);
+//					outputData(ids.findSolution(p).getNodesExpanded(), i, ids_out);
+//					outputData(ass.findSolution(p).getNodesExpanded(), i, ass_out);
+//					System.out.println("Finished testing depth " + i);
+//				}
+//			}
+//		} finally {
+//			closeFiles();
+//		}
+		//----------------------------------------------------------------------------------
+		//This bit generates whole search GIFs
+		SimpleNode gS = new SimpleNode(null, 0, new Position(1, 1), new Position(0, 0));
+		SimpleNode sS = new SimpleNode(null, Integer.MAX_VALUE, new Position(0, 1), new Position(3, 1));
+		
+		SimpleProblem s = new SimpleProblem(3, 3, sS, gS);
+		
+		dfs.findSolution(s);
+		bfs.findSolution(s);
+		ids.findSolution(s);
+		ass.findSolution(s);
 	}	
 	
 	public Node generateProblem(Problem p, int depth){		
