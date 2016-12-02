@@ -3,6 +3,7 @@ package blocksworld;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import main.Node;
 import main.Problem;
@@ -192,6 +193,34 @@ public class BlocksworldProblem extends Problem {
 
 	public int getHeight() {
 		return height;
+	}
+
+	@Override
+	public List<Node> enumerateGoalStates() {
+		List<Node> goals = new ArrayList<Node>();
+		
+		Position a, b, c, agent;
+		
+		a = new Position(1, 2);
+		b = new Position(1, 1);
+		c = new Position(1, 0);
+				
+		agent = new Position(0, 0);
+		goals.add(new BlocksworldNode(null, 0, a, b, c, agent));	
+		agent = new Position(0, 1);
+		goals.add(new BlocksworldNode(null, 0, a, b, c, agent));
+		agent = new Position(0, 2);
+		goals.add(new BlocksworldNode(null, 0, a, b, c, agent));
+		agent = new Position(1, 3);
+		goals.add(new BlocksworldNode(null, 0, a, b, c, agent));
+		agent = new Position(2, 0);
+		goals.add(new BlocksworldNode(null, 0, a, b, c, agent));
+		agent = new Position(2, 1);
+		goals.add(new BlocksworldNode(null, 0, a, b, c, agent));
+		agent = new Position(2, 2);							
+		goals.add(new BlocksworldNode(null, 0, a, b, c, agent));
+		
+		return goals;
 	}
 
 }

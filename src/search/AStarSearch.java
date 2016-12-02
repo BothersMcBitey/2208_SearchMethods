@@ -1,6 +1,5 @@
 package search;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import main.Node;
@@ -19,7 +18,7 @@ public class AStarSearch extends Search {
 		int nodesExpanded = 0;
 		
 		//initialise fringe
-		Set<Node> fringe = new HashSet<Node>();
+		Set<Node> fringe = new SearchSet<Node>();
 		fringe.add(p.getStartState());			
 		try{
 			//search until solution found or tree exhausted
@@ -35,6 +34,8 @@ public class AStarSearch extends Search {
 					}
 				}
 				
+//				System.out.println("Fringe: " + fringe.size() + "\n" + "current cost: " + currentCost + "\n" + "nodes expanded: " + nodesExpanded);
+				
 				fringe.remove(n);
 				nodesExpanded++;			
 				
@@ -43,8 +44,8 @@ public class AStarSearch extends Search {
 					solution = n;
 				}
 					
-				for(Node child : p.getChildren(n)){
-					fringe.add(child);			
+				for(Node child : p.getChildren(n)){	
+					fringe.add(child);							
 				}			
 			}			
 		} catch (OutOfMemoryError e){

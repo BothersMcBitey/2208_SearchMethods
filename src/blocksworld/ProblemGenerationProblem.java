@@ -1,6 +1,8 @@
 package blocksworld;
 
 import main.Node;
+import main.Problem;
+import search.AStarSearch;
 
 public class ProblemGenerationProblem extends BlocksworldProblem {
 
@@ -13,7 +15,7 @@ public class ProblemGenerationProblem extends BlocksworldProblem {
 		BlocksworldNode node = (BlocksworldNode) n;
 		int goal = ((ProblemGenerationNode) goalState).getGoalDepth();
 		
-		if(calculateNodeProblemDepth(node) == goal){
+		if(calculateNodeProblemDepth(node) == 0){
 			return true;
 		} else {
 			return false;
@@ -21,11 +23,18 @@ public class ProblemGenerationProblem extends BlocksworldProblem {
 	}
 
 	private int calculateNodeProblemDepth(BlocksworldNode n){
+//		Problem p = new BlocksworldProblem(getWidth(), getHeight(), n, startState); 
+//		
+//		AStarSearch s = new AStarSearch();
+//		
+//		return s.findSolution(p).getSolution().getDepth();				
 		//Manhatten distance
 		Position a = n.getA();
 		Position b = n.getB();
 		Position c = n.getC();
 		int depth = calculateNodeCost(a, b, c);
+		
+		depth = Math.abs((depth) - ((ProblemGenerationNode) goalState).getGoalDepth());
 		
 		return depth;
 	}
@@ -41,7 +50,7 @@ public class ProblemGenerationProblem extends BlocksworldProblem {
 		cost += Math.abs(b.getY() - goal.getB().getY());
 		cost += Math.abs(c.getX() - goal.getC().getX());
 		cost += Math.abs(c.getY() - goal.getC().getY()); 
-		
+				
 		return cost;
 	}
 }

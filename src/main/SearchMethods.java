@@ -6,15 +6,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Stack;
 
 import blocksworld.BlocksworldNode;
 import blocksworld.BlocksworldProblem;
 import blocksworld.Position;
-import blocksworld.ProblemGenerationNode;
-import blocksworld.ProblemGenerationProblem;
 import search.AStarSearch;
 import search.BreadthFirstSearch;
 import search.DepthFirstSearch;
@@ -22,7 +22,7 @@ import search.IterativeDeepeningSearch;
 
 public class SearchMethods {
 
-	static final int MAX_PROBLEM_DEPTH = 6, MAX_PROBLEM_REPEATS = 5; 
+	static final int MAX_PROBLEM_DEPTH = 10, MAX_PROBLEM_REPEATS = 5; 
 	
 	public static void main(String[] args) {
 		BlocksworldNode startState = new BlocksworldNode(null, Integer.MAX_VALUE, new Position(0, 0), 
@@ -34,70 +34,120 @@ public class SearchMethods {
 		BreadthFirstSearch bfs = new BreadthFirstSearch();
 		IterativeDeepeningSearch ids = new IterativeDeepeningSearch();
 		AStarSearch ass = new AStarSearch();
+//		
+//		ArrayList<Result> dfsResults = new ArrayList<Result>();
+//		ArrayList<Result> bfsResults = new ArrayList<Result>();
+//		ArrayList<Result> idsResults = new ArrayList<Result>();
+//		ArrayList<Result> assResults = new ArrayList<Result>();
 		
-		ArrayList<Result> dfsResults = new ArrayList<Result>();
-		ArrayList<Result> bfsResults = new ArrayList<Result>();
-		ArrayList<Result> idsResults = new ArrayList<Result>();
-		ArrayList<Result> assResults = new ArrayList<Result>();
-		
-
 		Problem p1 = new BlocksworldProblem(4,4,startState, goalState);
-		dfsResults.add(dfs.findSolution(p1));
-		bfsResults.add(bfs.findSolution(p1));
-		idsResults.add(ids.findSolution(p1));
-		assResults.add(ass.findSolution(p1));
+//		dfsResults.add(dfs.findSolution(p1));
+//		bfsResults.add(bfs.findSolution(p1));
+//		idsResults.add(ids.findSolution(p1));
+//		assResults.add(ass.findSolution(p1));
 		
-		System.out.println("Outputting results...");
-		outputSolution(dfsResults, "dfs");		
-		outputSolution(bfsResults, "bfs");		
-		outputSolution(idsResults, "ids");		
-		outputSolution(assResults, "ass");
+//		System.out.println("Outputting results...");
+		
+//		outputSolution(dfs.findSolution(p1), "dfs");		
+//		outputSolution(bfs.findSolution(p1), "bfs");		
+//		outputSolution(ids.findSolution(p1), "ids");		
+//		outputSolution(ass.findSolution(p1), "ass");
+		
 //		makeGif(dfsResults, "dfs", p1, false);		
 //		makeGif(bfsResults, "bfs", p1, false);		
 //		makeGif(idsResults, "ids", p1, false);		
 //		makeGif(assResults, "ass", p1, true);
-		System.out.println("Done.");
+//		System.out.println("Done.");
 
-		Problem p = null;
-		try{
-			for(int i = 0; i < MAX_PROBLEM_DEPTH; i++){
+//		dfsResults.clear();
+//		bfsResults.clear();
+//		idsResults.clear();
+//		assResults.clear();
+		
+		Problem p = new BlocksworldProblem(5,5,startState, goalState);
+//		try{
+			for(int i = 5; i < MAX_PROBLEM_DEPTH; i++){
 				for(int j = 0; j < MAX_PROBLEM_REPEATS; j++){
 					System.out.println("=================================");
 					System.out.println("Testing for problem depth " + i + ", count " + j);
 					System.out.println("---------------------------------");			
 					System.out.println("Generating problem...");
-					Problem findProblemOfDepthI = new ProblemGenerationProblem(5, 5, goalState, 
-							new ProblemGenerationNode(i));
-					Result problemOfDepthI = new DepthFirstSearch().findSolution(findProblemOfDepthI);
 					
-					startState = (BlocksworldNode) problemOfDepthI.getSolution();
+					startState = (BlocksworldNode) generateProblem(p, i);
 					startState.convertToStartNode();
 					
 					p = new BlocksworldProblem(5,5,startState, goalState);
+					
 					
 					System.out.println("Problem:");
 					System.out.println(startState.toString());
 					
 					System.out.println("Finding solutions...");
-					dfsResults.add(dfs.findSolution(p));
-					if(i<6) bfsResults.add(bfs.findSolution(p));
-					if(i<7) idsResults.add(ids.findSolution(p));
-					assResults.add(ass.findSolution(p));
+					outputSolution(dfs.findSolution(p), "dfs_" + i + "_" + j);
+					outputSolution(bfs.findSolution(p), "bfs_" + i + "_" + j);
+					outputSolution(ids.findSolution(p), "ids_" + i + "_" + j);
+					outputSolution(ass.findSolution(p), "ass_" + i + "_" + j);
 					System.out.println("Finished testing depth " + i);
 				}
 			}
-		} finally {
-			System.out.println("Outputting results...");
-			outputSolution(dfsResults, "dfs_t");		
-			outputSolution(bfsResults, "bfs_t");		
-			outputSolution(idsResults, "ids_t");		
-			outputSolution(assResults, "ass_t");
-//			makeGif(assResults, "ass_t",p, true);
-			System.out.println("Done.");
-		}
+//		} finally {
+//			System.out.println("Outputting results...");
+//			outputSolution(dfsResults, "dfs_t");		
+//			outputSolution(bfsResults, "bfs_t");		
+//			outputSolution(idsResults, "ids_t");		
+//			outputSolution(assResults, "ass_t");
+////			makeGif(assResults, "ass_t",p, true);
+//			System.out.println("Done.");
+//		}
 	}
 	
-	public static void outputSolution(List<Result> results, String filename){
+	public static Node generateProblem(Problem p, int depth){		
+		List<Node> candidates = new ArrayList<Node>();
+		List<Node> discovered = new ArrayList<Node>();
+		Stack<Node> undiscovered = new Stack<Node>();
+		
+		List<Node> goals = p.enumerateGoalStates();
+		for(Node goal : goals){
+			undiscovered.push(goal);
+		}
+		
+		while(!undiscovered.empty()){
+			Node n = undiscovered.pop();
+			
+			if(n.getDepth() == depth){
+				candidates.add(n);
+			} else {
+				for(Node child : p.getChildren(n)){
+					undiscovered.push(child);
+				}
+				discovered.add(n);
+			}
+		}
+		
+		Iterator<Node> it = candidates.iterator();
+		while(it.hasNext()){
+			Node n = it.next();
+			
+			boolean removed = false;
+			Iterator<Node> dit = discovered.iterator();
+			while(!removed && dit.hasNext()){
+				Node d = dit.next();
+				if(d.equals(n) || p.isGoalState(n)){
+					it.remove();
+					removed = true;
+				}
+			}
+		}
+		
+		if(candidates.isEmpty()){
+			return null;
+		} else {
+			Random r = new Random();
+			return candidates.get(r.nextInt(candidates.size()));
+		}		
+	}
+	
+	public static void outputSolution(Result r, String filename){
 		//Data
 		File dataFile = new File(filename + ".csv");				
 		if(!dataFile.exists()){
@@ -105,10 +155,10 @@ public class SearchMethods {
 			catch(IOException e){e.printStackTrace();}			
 		}		
 		try(FileWriter out = new FileWriter(dataFile)){
-			out.write("problemDepth,nodesExpanded" + System.getProperty("line.separator"));
-			for(Result r : results){
-				out.write(r.getProblemDepth() + "," + r.getNodesExpanded() + System.getProperty("line.separator"));
-			}		
+			out.append("problemDepth,nodesExpanded" + System.getProperty("line.separator"));			
+//			for(Result r : results){
+				out.append(r.getProblemDepth() + "," + r.getNodesExpanded() + System.getProperty("line.separator"));
+//			}		
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -122,14 +172,14 @@ public class SearchMethods {
 		}		
 		try(FileWriter out = new FileWriter(solutionFile)){
 			int count = 0;
-			for(Result r : results){
+//			for(Result r : results){
 				count++;
-				out.write("===========================================" 
+				out.append("===========================================" 
 						+ System.getProperty("line.separator"));
-				out.write("Solution " + count + System.getProperty("line.separator"));			
+				out.append("Solution " + count + System.getProperty("line.separator"));			
 				for(Node node : reverse(r.getSolution().getPath())){
-					out.write(node.toString() + System.getProperty("line.separator"));
-				}
+					out.append(node.toString() + System.getProperty("line.separator"));
+//				}
 			}
 			out.close();
 		} catch (IOException e) {

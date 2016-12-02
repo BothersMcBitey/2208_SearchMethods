@@ -26,4 +26,6 @@ public abstract class Problem {
 	}
 
 	public abstract int getTreeMaxDepth();
+
+	public abstract List<Node> enumerateGoalStates();
 }

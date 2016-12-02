@@ -27,9 +27,7 @@ public class DepthFirstSearch extends Search {
 				Node n = fringe.pop();
 				
 				nodesExpanded++;
-				
-				
-				
+
 				if(p.isGoalState(n)){
 					solutionFound = true;
 					solution = n;
@@ -42,8 +40,6 @@ public class DepthFirstSearch extends Search {
 		} catch (OutOfMemoryError e){
 			System.out.println("DFS ran out of memory, aborting search.");
 		}
-		
-		
 		
 		System.out.println("Nodes expanded: " + nodesExpanded);
 		System.out.println("Done.");

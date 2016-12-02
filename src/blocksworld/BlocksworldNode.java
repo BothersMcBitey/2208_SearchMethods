@@ -20,7 +20,8 @@ public class BlocksworldNode extends Node {
 		BlocksworldNode node = (BlocksworldNode) n;
 		
 		if((a.equals(node.getA())) && (b.equals(node.getB())) 
-				&& (c.equals(node.getC())) && (agent.equals(node.getAgent()))){
+				&& (c.equals(node.getC())) && (agent.equals(node.getAgent()))
+				/*&& (getDepth() == node.getDepth())*/){
 			return true;
 		} else {
 			return false;
